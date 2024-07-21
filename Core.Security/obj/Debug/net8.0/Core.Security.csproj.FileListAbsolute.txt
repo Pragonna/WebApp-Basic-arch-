@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\WebApp\Core.Security\bin\Debug\net8.0\Core.Security.deps.json
+C:\Users\User\source\repos\WebApp\Core.Security\bin\Debug\net8.0\Core.Security.dll
+C:\Users\User\source\repos\WebApp\Core.Security\bin\Debug\net8.0\Core.Security.pdb
+C:\Users\User\source\repos\WebApp\Core.Security\bin\Debug\net8.0\Core.Domain.dll
+C:\Users\User\source\repos\WebApp\Core.Security\bin\Debug\net8.0\Core.Domain.pdb
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.AssemblyInfo.cs
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Sec.BBB94791.Up2Date
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.dll
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\refint\Core.Security.dll
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.pdb
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\ref\Core.Security.dll
