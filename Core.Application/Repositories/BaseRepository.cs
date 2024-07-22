@@ -66,9 +66,12 @@ namespace Core.Application.Repositories
             return await FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate=null)
         {
-            return Context.Set<TEntity>().Where(predicate);
+           if(predicate!=null)
+                return Context.Set<TEntity>().Where(predicate);
+
+            return Context.Set<TEntity>().AsQueryable();
         }
 
         public TEntity Modify(TEntity entity)

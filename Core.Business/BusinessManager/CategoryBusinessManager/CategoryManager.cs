@@ -15,18 +15,19 @@ namespace Core.Business.BusinessManager.CategoryBusinessManager
                                  CategoryBusinessRules categoryBusinessRules,
                                  IMapper mapper) : ICategoryManager
     {
-        public async Task<CategoryAddOrUpdateDto> Add(CategoryAddOrUpdateDto categoryAddOrUpdateDto)
+        public async Task<CategoryListDto> Add(CategoryAddOrUpdateDto categoryAddOrUpdateDto)
         {
             await categoryBusinessRules.CategoryNameCanNotBeDuplicated(categoryAddOrUpdateDto.CategoryName);
 
             Category mappedCategory = mapper.Map<Category>(categoryAddOrUpdateDto);
             Category createdCategory = await categoryRepository.AddAsync(mappedCategory);
-            return mapper.Map<CategoryAddOrUpdateDto>(createdCategory);
+            return mapper.Map<CategoryListDto>(createdCategory);
         }
 
         public async Task<IEnumerable<CategoryListDto>> GetAll()
         {
-            throw new NotImplementedException();
+            IEnumerable<Category> categories = categoryRepository.GetList().ToList();
+            return mapper.Map<IEnumerable<CategoryListDto>>(categories);
         }
 
         public Task<CategoryAddOrUpdateDto> Modify(string name)

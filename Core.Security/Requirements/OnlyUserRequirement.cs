@@ -13,12 +13,12 @@ namespace Core.Security.Requirements
             var success = context.User.HasClaim(claim => claim.Type is ClaimTypes.NameIdentifier);
 
             if (!success)
-                context.Fail(context.FailureReasons.First());
+                throw new Exception("You are not authorized");
 
             if (context.User.ClaimRoles().Any(c => c == USER))
                 context.Succeed(requirement);
             else
-                context.Fail(context.FailureReasons.First());
+                throw new Exception("You have not permission");
 
             return Task.CompletedTask;
         }

@@ -2,6 +2,7 @@
 using Core.Business.BusinessManager.ProductBusinessManager;
 using Core.Business.BusinessManager.UserBusinessManager;
 using Core.Business.BusinessRules;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -13,7 +14,8 @@ namespace Core.Business
         public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        
             services.AddScoped<UserBusinessRules>();
             services.AddScoped<ProductBusinessRules>();
             services.AddScoped<CategoryBusinessRules>();

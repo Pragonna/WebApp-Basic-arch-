@@ -19,3 +19,4 @@ C:\Users\User\source\repos\WebApp\Core.Business\obj\Debug\net8.0\Core.Business.d
 C:\Users\User\source\repos\WebApp\Core.Business\obj\Debug\net8.0\refint\Core.Business.dll
 C:\Users\User\source\repos\WebApp\Core.Business\obj\Debug\net8.0\Core.Business.pdb
 C:\Users\User\source\repos\WebApp\Core.Business\obj\Debug\net8.0\ref\Core.Business.dll
+C:\Users\User\source\repos\WebApp\Core.Business\obj\Debug\net8.0\Core.Business.sourcelink.json

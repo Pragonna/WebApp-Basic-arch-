@@ -14,6 +14,8 @@ namespace Core.Business.Profiles.CategoryMapping
                 .ForMember(c => c.CreatedDate, res => res.Ignore())
                 .ForMember(c => c.ModifiedDate, res => res.Ignore())
                 .ForMember(c => c.Products, res => res.Ignore());
+
+            CreateMap<Category, CategoryListDto>().ReverseMap();
         }
     }
 }

@@ -7,14 +7,20 @@ namespace Presentation.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(policy:"OnlyUser")]
-    public class CategoriesController([FromBody]ICategoryManager categoryManager) : ControllerBase
+    [Authorize(policy: "OnlyUser")]
+    public class CategoriesController(ICategoryManager categoryManager) : ControllerBase
     {
         [HttpPost("post")]
-
-        public async Task<IActionResult> CreateCategory([FromBody] CategoryAddOrUpdateDto categoryAddOrUpdateDto)
+        public async Task<IActionResult> Create([FromBody] CategoryAddOrUpdateDto categoryAddOrUpdateDto)
         {
-            return Ok(await categoryManager.Add(categoryAddOrUpdateDto));
+            var result = await categoryManager.Add(categoryAddOrUpdateDto);
+            return Ok(result);
+        }
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetList()
+        {
+            var result = await categoryManager.GetAll();
+            return Ok(result);
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Core.Security.Requirements
             var success = context.User.HasClaim(claim => claim.Type is ClaimTypes.NameIdentifier);
 
             //var defaultHttpContext= (Microsoft.AspNetCore.Http.DefaultHttpContext)context.Resource;
-            
 
             if (!success)
                 context.Fail(context.FailureReasons.First());

@@ -13,6 +13,10 @@ namespace Core.Business.Profiles.ProductMapping
                .ForMember(c => c.Id, res => res.Ignore())
                .ForMember(c => c.Category, res => res.Ignore())
                .ForMember(c => c.CreatedDate, res => res.Ignore())
-               .ForMember(c => c.ModifiedDate, res => res.Ignore());        }
+               .ForMember(c => c.ModifiedDate, res => res.Ignore());
+
+            CreateMap<Product, ProductListDto>()
+                .ReverseMap();
+        }
     }
 }

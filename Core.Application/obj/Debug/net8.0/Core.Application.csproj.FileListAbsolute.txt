@@ -17,3 +17,4 @@ C:\Users\User\source\repos\WebApp\Core.Application\bin\Debug\net8.0\Core.Persist
 C:\Users\User\source\repos\WebApp\Core.Application\bin\Debug\net8.0\Core.Security.dll
 C:\Users\User\source\repos\WebApp\Core.Application\bin\Debug\net8.0\Core.Persistence.pdb
 C:\Users\User\source\repos\WebApp\Core.Application\bin\Debug\net8.0\Core.Security.pdb
+C:\Users\User\source\repos\WebApp\Core.Application\obj\Debug\net8.0\Core.Application.sourcelink.json

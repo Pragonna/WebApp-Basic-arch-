@@ -2,14 +2,16 @@ using Core.Business;
 using Core.Application;
 using Core.Security;
 using Core.Persistence;
-using Microsoft.OpenApi.Models;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(
+    fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddBusinessServices();
 builder.Services.AddApplicationServices();

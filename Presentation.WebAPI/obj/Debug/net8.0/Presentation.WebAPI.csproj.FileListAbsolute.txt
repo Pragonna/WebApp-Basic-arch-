@@ -150,3 +150,7 @@ C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\Core.Appl
 C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\Core.Business.dll
 C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\Core.Business.pdb
 C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\Core.Application.pdb
+C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\User\source\repos\WebApp\Presentation.WebAPI\obj\Debug\net8.0\Presentation.WebAPI.sourcelink.json
+C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\FluentValidation.AspNetCore.dll

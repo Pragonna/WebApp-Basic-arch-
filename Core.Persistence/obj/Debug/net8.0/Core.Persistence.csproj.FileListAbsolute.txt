@@ -17,3 +17,4 @@ C:\Users\User\source\repos\WebApp\Core.Persistence\obj\Debug\net8.0\refint\Core.
 C:\Users\User\source\repos\WebApp\Core.Persistence\obj\Debug\net8.0\Core.Persistence.pdb
 C:\Users\User\source\repos\WebApp\Core.Persistence\obj\Debug\net8.0\Core.Persistence.genruntimeconfig.cache
 C:\Users\User\source\repos\WebApp\Core.Persistence\obj\Debug\net8.0\ref\Core.Persistence.dll
+C:\Users\User\source\repos\WebApp\Core.Persistence\obj\Debug\net8.0\Core.Persistence.sourcelink.json

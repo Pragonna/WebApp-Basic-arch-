@@ -10,7 +10,7 @@ namespace Core.Application.Repositories
 {
     public interface IReadRepository<TEntity>  where TEntity : BaseEntity
     {
-        IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate=null);
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
         TEntity GetById(int id);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);

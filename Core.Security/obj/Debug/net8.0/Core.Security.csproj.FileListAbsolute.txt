@@ -13,3 +13,4 @@ C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.d
 C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\refint\Core.Security.dll
 C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.pdb
 C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\ref\Core.Security.dll
+C:\Users\User\source\repos\WebApp\Core.Security\obj\Debug\net8.0\Core.Security.sourcelink.json
