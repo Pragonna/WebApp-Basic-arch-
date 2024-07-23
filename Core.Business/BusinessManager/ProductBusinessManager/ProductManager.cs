@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Repositories.ProductRepositories;
 using Core.Business.BusinessRules;
-using Core.Business.Dtos.CategoryDtos;
 using Core.Business.Dtos.ProductDtos;
 using Core.Domain.Entities;
 
@@ -14,7 +13,7 @@ namespace Core.Business.BusinessManager.ProductBusinessManager
         public async Task<ProductListDto> Add(ProductAddDto productAddOrUpdateDto)
         {
             await productBusinessRules.SameNameProductCanNotDuplicatedWhenInsert(productAddOrUpdateDto.ProductName);
-            await productBusinessRules.CheckCategoryExistWhenProductInsert(productAddOrUpdateDto.CategoryId);
+            await productBusinessRules.CheckCategoryExistsWhenProductInsert(productAddOrUpdateDto.CategoryId);
 
             Product mappedProduct = mapper.Map<Product>(productAddOrUpdateDto);
             var createdProduct = await productRepository.AddAsync(mappedProduct);
@@ -31,14 +30,27 @@ namespace Core.Business.BusinessManager.ProductBusinessManager
             return mapper.Map<IEnumerable<ProductListDto>>(products);
         }
 
-        public Task<ProductAddDto> Modify(string name)
+        public async Task<ProductListDto> Modify(ProductUpdateDto productUpdateDto)
         {
-            throw new NotImplementedException();
+            var product = await productBusinessRules.CheckProductExistsWhenModifyOrRemove(productUpdateDto.Name);
+
+            await productBusinessRules.SameNameProductCanNotDuplicatedWhenInsert(productUpdateDto.ProductAddDto.ProductName);
+
+            product.ProductName = productUpdateDto.ProductAddDto.ProductName;
+            product.Price = productUpdateDto.ProductAddDto.Price;
+            product.CategoryId = productUpdateDto.ProductAddDto.CategoryId;
+            product.Stock= productUpdateDto.ProductAddDto.Stock;
+
+            Product modifiedProduct = await productRepository.ModifyAsync(product);
+            return mapper.Map<ProductListDto>(modifiedProduct);
         }
 
-        public Task<ProductAddDto> Remove(string name)
+        public async Task<ProductListDto> Remove(string name)
         {
-            throw new NotImplementedException();
+            var product = await productBusinessRules.CheckProductExistsWhenModifyOrRemove(name);
+
+            Product removedProduct = await productRepository.DeleteAsync(product);
+            return mapper.Map<ProductListDto>(removedProduct);
         }
     }
 }

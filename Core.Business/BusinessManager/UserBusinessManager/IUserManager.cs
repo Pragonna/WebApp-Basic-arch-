@@ -7,5 +7,7 @@ namespace Core.Business.BusinessManager.UserBusinessManager
     {
         Task<Core.Security.JWT.AccessToken> Login(UserLoginDto userLoginDto);
         Task<UserRegisterDto> Registration(UserRegisterDto userRegisterDto);
+        Task ModifyUser(UserModifyDto userModifyDto);
+        Task<IEnumerable<UserListDto>> GetAllUser();
     }
 }

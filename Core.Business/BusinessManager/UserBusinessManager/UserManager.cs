@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using Core.Application.Repositories.OperationClaimRepositories;
 using Core.Application.Repositories.UserOperationClaimRepositories;
 using Core.Application.Repositories.UserRepositories;
 using Core.Application.Services.AuthManager;
@@ -7,13 +8,15 @@ using Core.Business.BusinessRules;
 using Core.Business.Dtos.UserDtos;
 using Core.Security.Entities;
 using Core.Security.Hashing;
-using Core.Security.JWT;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Business.BusinessManager.UserBusinessManager
 {
     public class UserManager(
         IUserRepository userRepository,
         IUserOperationClaimRepository userOperationClaimRepository,
+        IOperationClaimRepository operationClaimRepository,
         UserBusinessRules userBusinessRules,
         IAuthenticationManager authenticationManager,
         IMapper mapper) : IUserManager
@@ -46,6 +49,42 @@ namespace Core.Business.BusinessManager.UserBusinessManager
 
             return accessToken;
 
+        }
+        public async Task ModifyUser(UserModifyDto userModifyDto)
+        {
+            User user = await userBusinessRules.EmailExistsWhenSignIn(userModifyDto.Email);
+
+            IList<OperationClaim> operationClaims = await userBusinessRules.OperationClaimExistsInDb(userModifyDto.UserRoleDto.Roles);
+
+            foreach (var operationClaim in operationClaims)
+            {
+                await userBusinessRules.UserOperationClaimCanNotDuplicated(user.Id, operationClaim.Id);
+                await userOperationClaimRepository.AddAsync(new UserOperationClaim(user.Id, operationClaim.Id));
+            }
+        }
+
+        public async Task<IEnumerable<UserListDto>> GetAllUser()
+        {
+            IEnumerable<User> users = userRepository.GetList();
+            IEnumerable<UserListDto> mappedList = mapper.Map<IEnumerable<UserListDto>>(users);
+            var userOperationClaims = userOperationClaimRepository.GetList().ToList();
+
+
+            foreach (var user in mappedList)
+            {
+                foreach (var userOperationClaim in userOperationClaims)
+                {
+                    if (userOperationClaim.UserId == user.Id)
+                    {
+                        var operationClaim = await operationClaimRepository.FirstOrDefaultAsync(x => x.Id == userOperationClaim.OperationClaimId);
+
+                        user.Roles.Add(operationClaim.Name);
+                    }
+                }
+            }
+
+
+            return mappedList;
         }
     }
 }

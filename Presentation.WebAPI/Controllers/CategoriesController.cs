@@ -7,7 +7,7 @@ namespace Presentation.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(policy: "OnlyUser")]
+    [Authorize(policy: "OnlyAdmin")]
     public class CategoriesController(ICategoryManager categoryManager) : ControllerBase
     {
         [HttpPost("post")]

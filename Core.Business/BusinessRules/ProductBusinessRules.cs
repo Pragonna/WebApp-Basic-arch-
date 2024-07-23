@@ -9,16 +9,24 @@ namespace Core.Business.BusinessRules
     {
         public async Task SameNameProductCanNotDuplicatedWhenInsert(string productName)
         {
-            Product product = await productRepository.FirstOrDefaultAsync(p => p.ProductName == productName);
+            Product? product = await productRepository.FirstOrDefaultAsync(p => p.ProductName == productName);
 
             if (product != null)
                 throw new Exception("This Product already exist.");
         }
-        public async Task CheckCategoryExistWhenProductInsert(int categoryId)
+        public async Task CheckCategoryExistsWhenProductInsert(int categoryId)
         {
-            Category category = await categoryRepository.FirstOrDefaultAsync(c => c.Id == categoryId);
+            Category? category = await categoryRepository.FirstOrDefaultAsync(c => c.Id == categoryId);
             if (category == null)
                 throw new Exception("this category is not exists");
+        }
+        public async Task<Product> CheckProductExistsWhenModifyOrRemove(string name)
+        {
+            Product? product = await productRepository.FirstOrDefaultAsync(p => p.ProductName == name);
+            if (product == null)
+                throw new Exception("This product is not exists");
+
+            return product;
         }
     }
 }

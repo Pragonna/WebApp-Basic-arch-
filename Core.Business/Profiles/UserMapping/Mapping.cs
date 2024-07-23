@@ -17,7 +17,9 @@ namespace Core.Business.Profiles.UserMapping
                 .ForMember(c => c.Id, res => res.Ignore())
                 .ForMember(c => c.CreatedDate, res => res.Ignore())
                 .ForMember(c => c.ModifiedDate, res => res.Ignore());
-                
+
+            CreateMap<User, UserListDto>()
+                .ForMember(c => c.Roles, res => res.Ignore());
 
         }
     }
