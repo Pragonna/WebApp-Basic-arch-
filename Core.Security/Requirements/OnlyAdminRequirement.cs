@@ -4,10 +4,10 @@ using System.Security.Claims;
 
 namespace Core.Security.Requirements
 {
-    public class OnlyAdminRequirement : AuthorizationHandler<OnlyUserRequirement>, IAuthorizationRequirement
+    public class OnlyAdminRequirement : AuthorizationHandler<OnlyAdminRequirement>, IAuthorizationRequirement
     {
         private const string ADMIN = "Admin";
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OnlyUserRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OnlyAdminRequirement requirement)
         {
             var success = context.User.HasClaim(claim => claim.Type is ClaimTypes.NameIdentifier);
 

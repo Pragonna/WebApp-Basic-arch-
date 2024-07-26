@@ -24,17 +24,7 @@ namespace Core.Persistence.Extensions
                 c.HasMany(o => o.Products).WithOne(o=>o.Category);
             });
 
-            modelBuilder.Entity<Order>(o =>
-            {
-                o.HasKey(c => c.Id);
-                o.HasOne(c => c.OrderDetails).WithOne(c=>c.Order);
-                o.HasMany(c => c.Products);
-            });
-
-            modelBuilder.Entity<OrderDetails>(o =>
-            {
-                o.HasKey(c => c.Id);
-            });
+           
             
             // Seed Data . . . 
 

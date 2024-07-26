@@ -11,10 +11,19 @@ namespace Core.Application.Services.AuthManager
     {
         public async Task<AccessToken> CreateAccessToken(User user)
         {
-            var operationClaimIds = userOperationClaimRepository.GetList(u => u.UserId == user.Id).Select(c => c.OperationClaimId);
-            var operationClaims = operationClaimRepository.GetList(o => o.Id == operationClaimIds.First()).ToList();
+            IEnumerable<int> operationClaimIds = userOperationClaimRepository.GetList(u => u.UserId == user.Id).Select(c => c.OperationClaimId).ToList();
+            
 
-            AccessToken accessToken = tokenHelper.CreateToken(user, operationClaims);
+            IList<OperationClaim> claims = new List<OperationClaim>();
+
+            foreach (var oId in operationClaimIds)
+            {
+                OperationClaim? operationClaim = operationClaimRepository.GetById(oId);
+                if(operationClaim != null)
+                    claims.Add(operationClaim);
+            }
+
+            AccessToken accessToken = tokenHelper.CreateToken(user, claims);
 
             return accessToken;
         }

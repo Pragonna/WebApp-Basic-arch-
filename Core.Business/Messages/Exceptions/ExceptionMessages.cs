@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Business.Messages.Exceptions
+﻿namespace Core.Business.Messages.Exceptions
 {
     public static class ExceptionMessages
     {

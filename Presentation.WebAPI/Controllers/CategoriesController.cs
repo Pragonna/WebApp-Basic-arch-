@@ -22,5 +22,11 @@ namespace Presentation.WebAPI.Controllers
             var result = await categoryManager.GetAll();
             return Ok(result);
         }
+        [HttpDelete("deleteCategory")]
+        public async Task<IActionResult> DeleteCategory([FromQuery] string name)
+        {
+            var result = await categoryManager.Remove(name);
+            return Ok(result);
+        }
     }
 }

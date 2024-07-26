@@ -29,7 +29,8 @@ namespace Presentation.WebAPI.Controllers
             await userManager.ModifyUser(userModifyDto);
             return Ok("User roles modified is successfully");
         }
-        [HttpGet("getAllUser")]
+        [HttpGet("getall")]
+
         public async Task<IActionResult> GetAllUser()
         {
             var result = await userManager.GetAllUser();

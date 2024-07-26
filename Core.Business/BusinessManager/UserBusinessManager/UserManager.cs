@@ -8,8 +8,6 @@ using Core.Business.BusinessRules;
 using Core.Business.Dtos.UserDtos;
 using Core.Security.Entities;
 using Core.Security.Hashing;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace Core.Business.BusinessManager.UserBusinessManager
 {
@@ -45,6 +43,7 @@ namespace Core.Business.BusinessManager.UserBusinessManager
             User user = await userBusinessRules.EmailExistsWhenSignIn(userLoginDto.Email);
             await userBusinessRules.UserPasswordCheckWhenSignIn(user, userLoginDto.Password);
 
+            user.Status = true;
             Core.Security.JWT.AccessToken accessToken = await authenticationManager.CreateAccessToken(user);
 
             return accessToken;
@@ -82,7 +81,6 @@ namespace Core.Business.BusinessManager.UserBusinessManager
                     }
                 }
             }
-
 
             return mappedList;
         }

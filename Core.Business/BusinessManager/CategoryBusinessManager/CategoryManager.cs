@@ -3,11 +3,6 @@ using Core.Application.Repositories.CategoryRepositories;
 using Core.Business.BusinessRules;
 using Core.Business.Dtos.CategoryDtos;
 using Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Business.BusinessManager.CategoryBusinessManager
 {
@@ -30,14 +25,14 @@ namespace Core.Business.BusinessManager.CategoryBusinessManager
             return mapper.Map<IEnumerable<CategoryListDto>>(categories);
         }
 
-        public Task<CategoryAddOrUpdateDto> Modify(string name)
+        public async Task<CategoryListDto> Remove(string name)
         {
-            throw new NotImplementedException();
+           var category=await categoryBusinessRules.CheckCategoryExistsInDb(name);
+
+            Category deletedCategory=await categoryRepository.DeleteAsync(category);
+            return mapper.Map<CategoryListDto>(deletedCategory);
         }
 
-        public Task<CategoryAddOrUpdateDto> Remove(string name)
-        {
-            throw new NotImplementedException();
-        }
+        // .Modify
     }
 }

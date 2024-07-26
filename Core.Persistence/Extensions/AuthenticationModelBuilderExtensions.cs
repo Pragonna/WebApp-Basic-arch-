@@ -1,11 +1,13 @@
-﻿using Core.Security.Entities;
+﻿using Core.Persistence.DataSeeds;
+using Core.Security.Entities;
+using Core.Security.Hashing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Persistence.Extensions
 {
     public static class AuthenticationModelBuilderExtensions
     {
-        public static ModelBuilder AuthenticationModelBuilding(this ModelBuilder modelBuilder) 
+        public static ModelBuilder AuthenticationModelBuilding(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(u =>
             {
@@ -19,16 +21,17 @@ namespace Core.Persistence.Extensions
             modelBuilder.Entity<UserOperationClaim>(uo =>
             {
                 uo.HasKey(c => c.Id);
+                uo.Property(c=>c.UserId).IsRequired();
+                uo.Property(c=>c.OperationClaimId).IsRequired();
+
 
             });
 
-            modelBuilder.Entity<OperationClaim>().HasData(new[]
-            {
-                new OperationClaim(id:1,name:"Admin"),
-                new OperationClaim(id:2,name:"SuperUser"),
-                new OperationClaim(id:3,name:"User")
+            modelBuilder.Entity<OperationClaim>().HasData(DataSeed.OperationClaims);
 
-            });
+            modelBuilder.Entity<User>().HasData(DataSeed.User);
+
+            modelBuilder.Entity<UserOperationClaim>().HasData(DataSeed.UserOperationClaims);
 
             return modelBuilder;
         }

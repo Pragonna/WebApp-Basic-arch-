@@ -1,5 +1,6 @@
 ﻿using Core.Domain.Entities.Commons;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Core.Application.Repositories
@@ -66,12 +67,15 @@ namespace Core.Application.Repositories
             return await FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate=null)
+        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>>? predicate = null,
+                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>?
+                                                           include = null)
         {
-           if(predicate!=null)
-                return Context.Set<TEntity>().Where(predicate);
+            IQueryable<TEntity> queryable = Context.Set<TEntity>();
+            if (include != null) queryable = include(queryable);
+            if (predicate != null) queryable = queryable.Where(predicate);
 
-            return Context.Set<TEntity>().AsQueryable();
+            return queryable;
         }
 
         public TEntity Modify(TEntity entity)

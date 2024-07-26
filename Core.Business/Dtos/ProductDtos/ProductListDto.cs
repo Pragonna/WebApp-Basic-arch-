@@ -1,6 +1,4 @@
 ﻿
-using Core.Domain.Entities;
-
 namespace Core.Business.Dtos.ProductDtos
 {
     public class ProductListDto
