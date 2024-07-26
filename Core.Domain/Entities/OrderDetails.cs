@@ -4,15 +4,20 @@ namespace Core.Domain.Entities
 {
     public class OrderDetails : BaseEntity
     {
+        public double Price { get; set; }
         public string ShippingAddress { get; set; }
-        public int OrderId{ get; set; }
         public string PostalCode { get; set; }
-        public Order Order { get; set; }
-        public OrderDetails(int id, string shippingAddress, string postalCode, int orderId) : base(id)
+
+        public OrderDetails(double price, string shippingAddress, string postalCode) : this()
         {
+            Price = price;
             ShippingAddress = shippingAddress;
             PostalCode = postalCode;
-            OrderId = orderId;
         }
+
+        public OrderDetails()
+        {
+        }
+        
     }
 }
