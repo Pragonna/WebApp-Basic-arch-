@@ -26,9 +26,7 @@ namespace Core.Persistence.Extensions
 
             modelBuilder.Entity<Order>(o =>
             {
-                o.HasKey(c => c.Id);
-                o.HasOne(c => c.OrderDetails).WithOne(c=>c.Order);
-                o.HasMany(c => c.Products);
+                
             });
 
             modelBuilder.Entity<OrderDetails>(o =>

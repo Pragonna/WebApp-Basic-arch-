@@ -1,4 +1,5 @@
-﻿using Core.Security.Entities;
+﻿using Core.Persistence.DataSeeds;
+using Core.Security.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Persistence.Extensions
@@ -22,13 +23,9 @@ namespace Core.Persistence.Extensions
 
             });
 
-            modelBuilder.Entity<OperationClaim>().HasData(new[]
-            {
-                new OperationClaim(id:1,name:"Admin"),
-                new OperationClaim(id:2,name:"SuperUser"),
-                new OperationClaim(id:3,name:"User")
-
-            });
+            modelBuilder.Entity<OperationClaim>().HasData(DataSeed.OperationClaims);
+            modelBuilder.Entity<User>().HasData(DataSeed.User);
+            modelBuilder.Entity<UserOperationClaim>().HasData(DataSeed.UserOperationClaims);
 
             return modelBuilder;
         }

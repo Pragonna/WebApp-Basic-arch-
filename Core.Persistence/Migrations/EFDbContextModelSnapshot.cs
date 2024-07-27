@@ -62,8 +62,11 @@ namespace Core.Persistence.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -84,21 +87,18 @@ namespace Core.Persistence.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("OrderDetails");
                 });
@@ -120,9 +120,6 @@ namespace Core.Persistence.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -136,8 +133,6 @@ namespace Core.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
                 });
@@ -168,19 +163,19 @@ namespace Core.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 7, 20, 12, 31, 9, 780, DateTimeKind.Local).AddTicks(7733),
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(4431),
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 7, 20, 12, 31, 9, 780, DateTimeKind.Local).AddTicks(7755),
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(4450),
                             Name = "SuperUser"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 7, 20, 12, 31, 9, 780, DateTimeKind.Local).AddTicks(7757),
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(4451),
                             Name = "User"
                         });
                 });
@@ -239,6 +234,23 @@ namespace Core.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "admin-address",
+                            Country = "admin-country",
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(6545),
+                            DateOfBirth = new DateTime(2024, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            Email = "admin@admin.com",
+                            FirstName = "admin-first-name",
+                            Gender = 1,
+                            LastName = "admin-last-name",
+                            PasswordHash = new byte[] { 4, 154, 2, 137, 25, 14, 14, 104, 76, 189, 103, 223, 245, 239, 61, 226, 253, 217, 215, 226, 10, 193, 198, 37, 70, 140, 253, 190, 112, 170, 42, 251, 124, 105, 32, 217, 148, 102, 140, 78, 19, 6, 16, 138, 182, 132, 190, 202, 205, 19, 2, 80, 178, 63, 177, 125, 7, 41, 244, 224, 47, 28, 210, 102 },
+                            PasswordSalt = new byte[] { 75, 144, 127, 235, 84, 11, 42, 30, 69, 165, 204, 21, 142, 250, 146, 145, 5, 27, 125, 161, 24, 226, 28, 117, 202, 166, 41, 163, 141, 19, 31, 144, 189, 189, 137, 165, 78, 42, 27, 255, 139, 204, 128, 107, 239, 129, 64, 217, 242, 213, 17, 15, 183, 152, 28, 210, 195, 114, 107, 254, 99, 121, 1, 201, 144, 206, 229, 143, 143, 3, 224, 217, 239, 213, 37, 224, 66, 25, 21, 249, 0, 163, 144, 125, 218, 1, 157, 146, 198, 11, 169, 193, 211, 68, 176, 70, 30, 83, 87, 46, 152, 224, 188, 243, 211, 239, 47, 60, 63, 58, 100, 250, 198, 53, 245, 137, 175, 64, 117, 112, 245, 72, 139, 5, 101, 197, 79, 137 },
+                            Status = false
+                        });
                 });
 
             modelBuilder.Entity("Core.Security.Entities.UserOperationClaim", b =>
@@ -264,17 +276,29 @@ namespace Core.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserOperationClaims");
-                });
 
-            modelBuilder.Entity("Core.Domain.Entities.OrderDetails", b =>
-                {
-                    b.HasOne("Core.Domain.Entities.Order", "Order")
-                        .WithOne("OrderDetails")
-                        .HasForeignKey("Core.Domain.Entities.OrderDetails", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(6670),
+                            OperationClaimId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(6673),
+                            OperationClaimId = 2,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2024, 7, 27, 16, 0, 1, 719, DateTimeKind.Local).AddTicks(6674),
+                            OperationClaimId = 3,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Product", b =>
@@ -285,22 +309,11 @@ namespace Core.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Domain.Entities.Order", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
                     b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Core.Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-
                     b.Navigation("Products");
                 });
 #pragma warning restore 612, 618

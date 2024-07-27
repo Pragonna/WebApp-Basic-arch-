@@ -1,4 +1,5 @@
 ﻿using Core.Business.BusinessManager.CategoryBusinessManager;
+using Core.Business.BusinessManager.OrderBusinessManager;
 using Core.Business.BusinessManager.ProductBusinessManager;
 using Core.Business.BusinessManager.UserBusinessManager;
 using Core.Business.BusinessRules;
@@ -19,10 +20,12 @@ namespace Core.Business
             services.AddScoped<UserBusinessRules>();
             services.AddScoped<ProductBusinessRules>();
             services.AddScoped<CategoryBusinessRules>();
+            services.AddScoped<OrderBusinessRules>();
 
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IProductManager, ProductManager>();
             services.AddScoped<ICategoryManager, CategoryManager>();
+            services.AddScoped<IOrderManager, OrderManager>();
 
             return services;
         }

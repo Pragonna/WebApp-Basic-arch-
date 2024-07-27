@@ -1,16 +1,15 @@
 ﻿using Core.Domain.Entities.Commons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Security.Entities
 {
     public class UserOperationClaim : BaseEntity
     {
         public UserOperationClaim( int userId, int operationClaimId)
+        {
+            UserId = userId;
+            OperationClaimId = operationClaimId;
+        }
+        public UserOperationClaim(int id,int userId, int operationClaimId):base(id)
         {
             UserId = userId;
             OperationClaimId = operationClaimId;
