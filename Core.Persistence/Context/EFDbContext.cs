@@ -10,6 +10,7 @@ namespace Core.Persistence.Context
 {
     public class EFDbContext (IConfiguration configuration): DbContext
     {
+        const string SQL = "Sql";
         public DbSet<Product>Products { get; set; }
         public DbSet<Order>Orders{ get; set; }
         public DbSet<OrderDetails>OrderDetails{ get; set; }
@@ -21,12 +22,12 @@ namespace Core.Persistence.Context
         public DbSet<UserOperationClaim>UserOperationClaims { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("Sql"));
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString(SQL));
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.DomainEntitiesModelBuilding();
-            modelBuilder.AuthenticationModelBuilding();
+            modelBuilder.AuthenticationModelBuilding(configuration);
         }
     }
 }

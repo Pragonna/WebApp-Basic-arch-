@@ -7,11 +7,13 @@ namespace Core.Persistence
 {
     public static class PersistenceServicesRegistration
     {
+            const string SQL = "Sql";
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services,IConfiguration configuration)
         {
+
             services.AddDbContext<EFDbContext>(opt =>
             {
-                opt.UseSqlServer(configuration.GetConnectionString("Sql"));
+                opt.UseSqlServer(configuration.GetConnectionString(SQL));
             });
 
             return services;

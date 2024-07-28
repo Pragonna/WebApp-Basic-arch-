@@ -1,37 +1,34 @@
 ﻿using Core.Domain.Enums;
 using Core.Security.Entities;
 using Core.Security.Hashing;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Loader;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Core.Persistence.DataSeeds
 {
-    public class DataSeed
+    public class DataSeed(IConfiguration configuration)
     {
+        const string ADMIN = "Admin";
+        const string SUPER_USER = "Admin";
+        const string USER = "Admin";
+        Admin? admin = configuration.GetSection(ADMIN).Get<Admin>();
         public static OperationClaim[] OperationClaims => new[]
             {
-                new OperationClaim(id:1,name:"Admin"),
-                new OperationClaim(id:2,name:"SuperUser"),
-                new OperationClaim(id:3,name:"User")
+                new OperationClaim(id:1,name:ADMIN),
+                new OperationClaim(id:2,name:SUPER_USER),
+                new OperationClaim(id:3,name:USER)
         };
 
-        public static User User => UserSeed();
+        public  User User => UserSeed();
 
-        private static User UserSeed()
+        private  User UserSeed()
         {
-            const string PASSWORD = "admin123";
             byte[] passwordHash, passwordSalt;
-            HashingHelper.GeneratePasswordHash(PASSWORD, out passwordHash, out passwordSalt);
+            HashingHelper.GeneratePasswordHash(admin.Password, out passwordHash, out passwordSalt);
 
             return new User(id: 1,
                             firstName: "admin-first-name",
                             lastName: "admin-last-name",
-                            email: "admin@admin.com",
+                            email: admin.Email,
                             passwordHash: passwordHash,
                             passwordSalt: passwordSalt,
                             dateOfBirth: DateTime.Now.Date,
@@ -46,7 +43,10 @@ namespace Core.Persistence.DataSeeds
             new UserOperationClaim(id:2,userId:1,operationClaimId:2),
             new UserOperationClaim(id:3,userId:1,operationClaimId:3),
         };
-
-            
+    }
+    internal class Admin
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

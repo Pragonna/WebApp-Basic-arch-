@@ -4,6 +4,6 @@ namespace Core.Application.Repositories.OrderRepositories
 {
     public interface IOrderRepository:IWriteRepository<Order>,IReadRepository<Order>
     {
-        EFDbContext Context { get; }
+         EFDbContext Context { get; }
     }
 }

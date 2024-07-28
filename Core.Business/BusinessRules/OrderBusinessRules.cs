@@ -1,7 +1,10 @@
 ﻿
+using Core.Application.CrossCuttingConcerns.Exceptions;
 using Core.Application.Repositories.ProductRepositories;
 using Core.Business.Dtos.ProductDtos;
+using Core.Business.Messages.Exceptions;
 using Core.Domain.Entities;
+using FluentValidation;
 
 namespace Core.Business.BusinessRules
 {
@@ -11,19 +14,19 @@ namespace Core.Business.BusinessRules
                                                                  string postalCode,
                                                                  double price)
         {
-            if (string.IsNullOrEmpty(shippingAddress) || string.IsNullOrEmpty(postalCode)) throw new Exception("the fields can not be empty or null");
+            if (string.IsNullOrEmpty(shippingAddress) || string.IsNullOrEmpty(postalCode)) throw new ValidationException(ExceptionMessages.FieldCanNotBeNullOrEmpty);
 
-            if (price <= 0) throw new Exception("Price must be great than zero");
+            if (price <= 0) throw new ValidationException(ExceptionMessages.PriceGreatThanZero);
 
         }
 
         public async Task CheckProductExistsInDb(IList<ProductListDto> products)
         {
-            if (!products.Any()) throw new Exception("Products can not be null or empty");
+            if (!products.Any()) throw new BusinessException(ExceptionMessages.ProductCanNotBeNull);
 
             IEnumerable<Product> _products = productRepository.GetList(p => products.Any(c => c.Id == p.Id));
 
-            if (!_products.Any()) throw new Exception("this products does not exists in database");
+            if (!_products.Any()) throw new BusinessException(ExceptionMessages.ProductNotFound);
         }
     }
 }

@@ -3,11 +3,6 @@ using Core.Application.Repositories.CategoryRepositories;
 using Core.Business.BusinessRules;
 using Core.Business.Dtos.CategoryDtos;
 using Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Business.BusinessManager.CategoryBusinessManager
 {

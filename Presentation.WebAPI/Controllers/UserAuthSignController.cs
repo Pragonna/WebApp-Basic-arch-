@@ -7,13 +7,13 @@ namespace Presentation.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserAuthSignController(IUserManager userManager) : ControllerBase
+    public class UserAuthSignController(IUserManager userManager,
+                                        ILogger<UserAuthSignController>logger) : ControllerBase
     {
         [HttpPost("signup")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
         {
             UserRegisterDto registerDto = await userManager.Registration(userRegisterDto);
-
             return Ok(registerDto);
         }
         [HttpPost("signin")]
@@ -22,7 +22,7 @@ namespace Presentation.WebAPI.Controllers
             var token = await userManager.Login(userLoginDto);
             return Ok(token);
         }
-        [HttpPut("updateUserRoles")]
+        [HttpPut("update-role")]
         [Authorize(policy: "OnlyAdmin")]
         public async Task<IActionResult> UpdateUser([FromBody] UserModifyDto userModifyDto)
         {

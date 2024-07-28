@@ -1,5 +1,7 @@
-﻿using Core.Application.Repositories.CategoryRepositories;
+﻿using Core.Application.CrossCuttingConcerns.Exceptions;
+using Core.Application.Repositories.CategoryRepositories;
 using Core.Application.Repositories.ProductRepositories;
+using Core.Business.Messages.Exceptions;
 using Core.Domain.Entities;
 
 namespace Core.Business.BusinessRules
@@ -12,19 +14,19 @@ namespace Core.Business.BusinessRules
             Product? product = await productRepository.FirstOrDefaultAsync(p => p.ProductName == productName);
 
             if (product != null)
-                throw new Exception("This Product already exist.");
+                throw new BusinessException(ExceptionMessages.ProductAlreadyExists);
         }
         public async Task CheckCategoryExistsWhenProductInsert(int categoryId)
         {
             Category? category = await categoryRepository.FirstOrDefaultAsync(c => c.Id == categoryId);
             if (category == null)
-                throw new Exception("this category is not exists");
+                throw new BusinessException(ExceptionMessages.CategoryNotFound);
         }
         public async Task<Product> CheckProductExistsWhenModifyOrRemove(string name)
         {
             Product? product = await productRepository.FirstOrDefaultAsync(p => p.ProductName == name);
             if (product == null)
-                throw new Exception("This product is not exists");
+                throw new BusinessException(ExceptionMessages.ProductNotFound);
 
             return product;
         }

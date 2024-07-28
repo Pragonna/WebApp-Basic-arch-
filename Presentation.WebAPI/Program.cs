@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddFluentValidation(
     fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
+builder.Services.AddLogging(b => b.AddConsole());
+
 builder.Services.AddBusinessServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices(builder.Configuration);
@@ -29,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.CustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

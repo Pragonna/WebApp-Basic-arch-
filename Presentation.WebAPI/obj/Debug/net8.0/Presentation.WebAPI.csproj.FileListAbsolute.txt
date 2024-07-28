@@ -154,3 +154,4 @@ C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\FluentVal
 C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\User\source\repos\WebApp\Presentation.WebAPI\obj\Debug\net8.0\Presentation.WebAPI.sourcelink.json
 C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Users\User\source\repos\WebApp\Presentation.WebAPI\bin\Debug\net8.0\Newtonsoft.Json.dll

@@ -1,6 +1,8 @@
 ﻿
 
+using Core.Application.CrossCuttingConcerns.Exceptions;
 using Core.Application.Repositories.CategoryRepositories;
+using Core.Business.Messages.Exceptions;
 using Core.Domain.Entities;
 
 namespace Core.Business.BusinessRules
@@ -11,7 +13,7 @@ namespace Core.Business.BusinessRules
         {
            Category category=await categoryRepository.FirstOrDefaultAsync(c => c.CategoryName == categoryName);
             if (category != null)
-                throw new Exception("this category already is exist");
+                throw new BusinessException(ExceptionMessages.CategoryAlreadyExists);
         }
     }
 }

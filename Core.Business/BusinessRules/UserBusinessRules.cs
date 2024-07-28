@@ -1,7 +1,7 @@
-﻿using Core.Application.Repositories.OperationClaimRepositories;
+﻿using Core.Application.CrossCuttingConcerns.Exceptions;
+using Core.Application.Repositories.OperationClaimRepositories;
 using Core.Application.Repositories.UserOperationClaimRepositories;
 using Core.Application.Repositories.UserRepositories;
-using Core.Business.Dtos.UserDtos;
 using Core.Business.Messages.Exceptions;
 using Core.Security.Entities;
 using Core.Security.Hashing;
@@ -17,7 +17,7 @@ namespace Core.Business.BusinessRules
             var user = await userRepository.FirstOrDefaultAsync(e => e.Email == email);
 
             if (user == null)
-                throw new Exception(ExceptionMessages.EmailOrPasswordInCorrect);
+                throw new BusinessException(ExceptionMessages.EmailOrPasswordInCorrect);
 
             return user;
         }
@@ -26,7 +26,7 @@ namespace Core.Business.BusinessRules
             var user = await userRepository.FirstOrDefaultAsync(e => e.Email == email);
 
             if (user != null)
-                throw new Exception(ExceptionMessages.EmailAlreadyRegistered);
+                throw new BusinessException(ExceptionMessages.EmailAlreadyRegistered);
 
             return user;
         }
@@ -36,7 +36,7 @@ namespace Core.Business.BusinessRules
             var success = HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
 
             if (!success)
-                throw new Exception(ExceptionMessages.EmailOrPasswordInCorrect);
+                throw new AuthorizationException(ExceptionMessages.EmailOrPasswordInCorrect);
 
         }
 
@@ -45,7 +45,7 @@ namespace Core.Business.BusinessRules
             IList<OperationClaim> operationClaims = operationClaimRepository.GetList(
                 o => roles.Any(role => role == o.Name)).ToList();
             if (!operationClaims.Any())
-                throw new Exception("this roles does not exists");
+                throw new AuthorizationException(ExceptionMessages.ClaimRoleNotFound);
 
             return operationClaims;
         }
@@ -55,7 +55,7 @@ namespace Core.Business.BusinessRules
             IEnumerable<UserOperationClaim>? userOperationClaims = userOperationClaimRepository.GetList(x => x.UserId == userId && x.OperationClaimId == operationClaimId).ToList();
 
             if (userOperationClaims.Any())
-                throw new Exception("this role already added this user");
+                throw new BusinessException(ExceptionMessages.RoleAlreadyAdded);
         }
 
     }
