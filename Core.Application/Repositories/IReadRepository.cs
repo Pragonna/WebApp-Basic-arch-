@@ -1,16 +1,14 @@
 ﻿using Core.Domain.Entities.Commons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Application.Repositories
 {
     public interface IReadRepository<TEntity>  where TEntity : BaseEntity
     {
-        IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate=null);
+        IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate=null,
+                                    Func<IQueryable<TEntity>,IIncludableQueryable<TEntity,object>>include=null,
+                                    bool enableTracking = true);
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
         TEntity GetById(int id);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);

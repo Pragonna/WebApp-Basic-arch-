@@ -8,12 +8,12 @@ namespace Presentation.WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UserAuthSignController(IUserManager userManager,
-                                        ILogger<UserAuthSignController>logger) : ControllerBase
+                                        ILogger<UserAuthSignController> logger) : ControllerBase
     {
         [HttpPost("signup")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
+        public async Task<IActionResult> Register([FromBody] UserRegisterOrListDto userRegisterDto)
         {
-            UserRegisterDto registerDto = await userManager.Registration(userRegisterDto);
+            UserRegisterOrListDto registerDto = await userManager.Registration(userRegisterDto);
             return Ok(registerDto);
         }
         [HttpPost("signin")]
@@ -33,6 +33,18 @@ namespace Presentation.WebAPI.Controllers
         public async Task<IActionResult> GetAllUser()
         {
             var result = await userManager.GetAllUser();
+            return Ok(result);
+        }
+        [HttpDelete("delete-user")]
+        public async Task<IActionResult> DeleteUser([FromQuery] string email)
+        {
+            var result = await userManager.DeleteUser(email);
+            return Ok(result);
+        }
+        [HttpGet("getByEmail")]
+        public async Task<IActionResult> FindByEmail([FromQuery] string email)
+        {
+            var result = await userManager.FindUserByEmail(email);
             return Ok(result);
         }
     }

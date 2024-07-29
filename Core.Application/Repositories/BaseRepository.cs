@@ -1,5 +1,6 @@
 ﻿using Core.Domain.Entities.Commons;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Core.Application.Repositories
@@ -16,6 +17,10 @@ namespace Core.Application.Repositories
         public BaseRepository(TContext context)
         {
             Context = context;
+        }
+        private IQueryable<TEntity> Query()
+        {
+            return Context.Set<TEntity>();
         }
 
         public TEntity Add(TEntity entity)
@@ -48,12 +53,12 @@ namespace Core.Application.Repositories
 
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().FirstOrDefault(predicate);
+            return Query().FirstOrDefault(predicate);
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return await Query().FirstOrDefaultAsync(predicate);
         }
 
         public TEntity GetById(int id)
@@ -66,12 +71,17 @@ namespace Core.Application.Repositories
             return await FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate=null)
+        public IQueryable<TEntity> GetList(Expression<Func<TEntity, bool>> predicate = null,
+                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+                                           bool enableTracking = true)
         {
-           if(predicate!=null)
-                return Context.Set<TEntity>().Where(predicate);
+            IQueryable<TEntity> queryable = Query();
 
-            return Context.Set<TEntity>().AsQueryable();
+            if (predicate != null) queryable = queryable.Where(predicate);
+            if (include != null) queryable = include(queryable);
+            if (!enableTracking) queryable = queryable.AsNoTracking();
+
+            return queryable;
         }
 
         public TEntity Modify(TEntity entity)

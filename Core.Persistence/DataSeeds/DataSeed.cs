@@ -8,8 +8,8 @@ namespace Core.Persistence.DataSeeds
     public class DataSeed(IConfiguration configuration)
     {
         const string ADMIN = "Admin";
-        const string SUPER_USER = "Admin";
-        const string USER = "Admin";
+        const string SUPER_USER = "SuperUser";
+        const string USER = "User";
         Admin? admin = configuration.GetSection(ADMIN).Get<Admin>();
         public static OperationClaim[] OperationClaims => new[]
             {
