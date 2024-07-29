@@ -3,6 +3,7 @@ using Core.Application.Repositories.ProductRepositories;
 using Core.Business.BusinessRules;
 using Core.Business.Dtos.ProductDtos;
 using Core.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Business.BusinessManager.ProductBusinessManager
 {
@@ -26,7 +27,8 @@ namespace Core.Business.BusinessManager.ProductBusinessManager
         }
         public async Task<IEnumerable<ProductListDto>> GetAll()
         {
-            IEnumerable<Product> products = productRepository.GetList().ToList();
+            IEnumerable<Product> products = productRepository.GetList(include: p => p.Include(x => x.Category),
+                                                                      enableTracking: false);
             return mapper.Map<IEnumerable<ProductListDto>>(products);
         }
 
@@ -39,7 +41,7 @@ namespace Core.Business.BusinessManager.ProductBusinessManager
             product.ProductName = productUpdateDto.ProductAddDto.ProductName;
             product.Price = productUpdateDto.ProductAddDto.Price;
             product.CategoryId = productUpdateDto.ProductAddDto.CategoryId;
-            product.Stock= productUpdateDto.ProductAddDto.Stock;
+            product.Stock = productUpdateDto.ProductAddDto.Stock;
 
             Product modifiedProduct = await productRepository.ModifyAsync(product);
             return mapper.Map<ProductListDto>(modifiedProduct);

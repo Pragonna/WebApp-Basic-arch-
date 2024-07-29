@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Business.Validators
 {
-    public class UserValidator:AbstractValidator<UserRegisterDto>
+    public class UserValidator:AbstractValidator<UserRegisterOrListDto>
     {
         public UserValidator()
         {

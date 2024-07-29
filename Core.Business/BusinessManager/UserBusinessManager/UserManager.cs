@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using Core.Application.Repositories.OperationClaimRepositories;
 using Core.Application.Repositories.UserOperationClaimRepositories;
 using Core.Application.Repositories.UserRepositories;
@@ -8,8 +7,6 @@ using Core.Business.BusinessRules;
 using Core.Business.Dtos.UserDtos;
 using Core.Security.Entities;
 using Core.Security.Hashing;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace Core.Business.BusinessManager.UserBusinessManager
 {
@@ -21,7 +18,7 @@ namespace Core.Business.BusinessManager.UserBusinessManager
         IAuthenticationManager authenticationManager,
         IMapper mapper) : IUserManager
     {
-        public async Task<UserRegisterDto> Registration(UserRegisterDto userRegisterDto)
+        public async Task<UserRegisterOrListDto> Registration(UserRegisterOrListDto userRegisterDto)
         {
             await userBusinessRules.UserEmailCanNotDuplicatedWhenSignUp(userRegisterDto.Email);
 
@@ -36,7 +33,7 @@ namespace Core.Business.BusinessManager.UserBusinessManager
 
             // UserOperationClaim is creating when new User insert in Database like a simple USER role (operationClaim)
             await userOperationClaimRepository.AddAsync(new UserOperationClaim(createdUser.Id, 3));
-            UserRegisterDto mappedUserDto = mapper.Map<UserRegisterDto>(createdUser);
+            UserRegisterOrListDto mappedUserDto = mapper.Map<UserRegisterOrListDto>(createdUser);
 
             return mappedUserDto;
         }
@@ -62,13 +59,29 @@ namespace Core.Business.BusinessManager.UserBusinessManager
                 await userOperationClaimRepository.AddAsync(new UserOperationClaim(user.Id, operationClaim.Id));
             }
         }
+        public async Task<UserRegisterOrListDto> FindUserByEmail(string email)
+        {
+            User user = await userBusinessRules.EmailExistsWhenSignIn(email);
+            UserRegisterOrListDto mappedDto = mapper.Map<UserRegisterOrListDto>(user);
+            return mappedDto;
+        }
+        public async Task<UserRegisterOrListDto> DeleteUser(string email)
+        {
+            User user = await userBusinessRules.EmailExistsWhenSignIn(email);
+            User deletedUser = await userRepository.DeleteAsync(user);
 
+            var userOperationClaims = userOperationClaimRepository.GetList(predicate: x => x.UserId == deletedUser.Id)
+                                                                    .ToList();
+
+            userOperationClaims.ForEach(async x => await userOperationClaimRepository.DeleteAsync(x));
+            return mapper.Map<UserRegisterOrListDto>(user);
+        }
         public async Task<IEnumerable<UserListDto>> GetAllUser()
         {
+            //                  - High resource -  
             IEnumerable<User> users = userRepository.GetList();
             IEnumerable<UserListDto> mappedList = mapper.Map<IEnumerable<UserListDto>>(users);
             var userOperationClaims = userOperationClaimRepository.GetList().ToList();
-
 
             foreach (var user in mappedList)
             {
@@ -82,7 +95,6 @@ namespace Core.Business.BusinessManager.UserBusinessManager
                     }
                 }
             }
-
 
             return mappedList;
         }

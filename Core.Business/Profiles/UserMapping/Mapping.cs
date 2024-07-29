@@ -8,7 +8,7 @@ namespace Core.Business.Profiles.UserMapping
     {
         public Mapping()
         {
-            CreateMap<User, UserRegisterDto>()
+            CreateMap<User, UserRegisterOrListDto>()
                 .ForMember(c => c.Password, res => res.Ignore())
                 .ReverseMap()
                 .ForMember(c => c.PasswordHash, res => res.Ignore())
