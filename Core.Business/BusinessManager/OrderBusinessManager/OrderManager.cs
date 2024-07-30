@@ -14,7 +14,7 @@ namespace Core.Business.BusinessManager.OrderBusinessManager
     public class OrderManager(IOrderDetailsRepository orderDetailsRepository,
                               IOrderRepository orderRepository,
                               OrderBusinessRules orderBusinessRules,
-                              IManager manager,,
+                              IManager manager,
                               IMapper mapper) : IOrderManager
     {
 
