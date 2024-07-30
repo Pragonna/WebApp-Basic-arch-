@@ -2,37 +2,43 @@
 using Core.Application.Repositories.ProductRepositories;
 using Core.Business.BusinessRules;
 using Core.Business.Dtos.ProductDtos;
+using Core.Business.Results;
 using Core.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Business.BusinessManager.ProductBusinessManager
 {
     public class ProductManager(IProductRepository productRepository,
                                 ProductBusinessRules productBusinessRules,
+                                IManager manager,
                                 IMapper mapper) : IProductManager
     {
-        public async Task<ProductListDto> Add(ProductAddDto productAddOrUpdateDto)
+        public async Task<IActionResult> Add(ProductAddDto productAddOrUpdateDto)
         {
             await productBusinessRules.SameNameProductCanNotDuplicatedWhenInsert(productAddOrUpdateDto.ProductName);
             await productBusinessRules.CheckCategoryExistsWhenProductInsert(productAddOrUpdateDto.CategoryId);
 
             Product mappedProduct = mapper.Map<Product>(productAddOrUpdateDto);
             var createdProduct = await productRepository.AddAsync(mappedProduct);
-            return mapper.Map<ProductListDto>(createdProduct);
+            var result= mapper.Map<ProductListDto>(createdProduct);
+            return manager.Result(result);
         }
-        public async Task<IEnumerable<ProductListDto>> GetByCategoryId(int categoryId)
+        public async Task<IActionResult> GetByCategoryId(int categoryId)
         {
             IEnumerable<Product> products = productRepository.GetList(x => x.CategoryId == categoryId).ToList();
-            return mapper.Map<IEnumerable<ProductListDto>>(products);
+            var result= mapper.Map<IEnumerable<ProductListDto>>(products);
+            return manager.Result(result);
         }
-        public async Task<IEnumerable<ProductListDto>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             IEnumerable<Product> products = productRepository.GetList(include: p => p.Include(x => x.Category),
                                                                       enableTracking: false);
-            return mapper.Map<IEnumerable<ProductListDto>>(products);
+            var result = mapper.Map<IEnumerable<ProductListDto>>(products);
+            return manager.Result(result);
         }
 
-        public async Task<ProductListDto> Modify(ProductUpdateDto productUpdateDto)
+        public async Task<IActionResult> Modify(ProductUpdateDto productUpdateDto)
         {
             var product = await productBusinessRules.CheckProductExistsWhenModifyOrRemove(productUpdateDto.Name);
 
@@ -44,15 +50,17 @@ namespace Core.Business.BusinessManager.ProductBusinessManager
             product.Stock = productUpdateDto.ProductAddDto.Stock;
 
             Product modifiedProduct = await productRepository.ModifyAsync(product);
-            return mapper.Map<ProductListDto>(modifiedProduct);
+            var result= mapper.Map<ProductListDto>(modifiedProduct);
+            return manager.Result(result);
         }
 
-        public async Task<ProductListDto> Remove(string name)
+        public async Task<IActionResult> Remove(string name)
         {
             var product = await productBusinessRules.CheckProductExistsWhenModifyOrRemove(name);
 
             Product removedProduct = await productRepository.DeleteAsync(product);
-            return mapper.Map<ProductListDto>(removedProduct);
+            var result= mapper.Map<ProductListDto>(removedProduct);
+            return manager.Result(result);
         }
     }
 }

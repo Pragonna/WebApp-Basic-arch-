@@ -4,7 +4,7 @@ using Core.Domain.Enums;
 
 namespace Core.Business.Dtos.UserDtos
 {
-    public class UserRegisterOrListDto
+    public class UserRegisterDto
     {
         public int Id{ get; set; }
         public string FirstName { get; set; }

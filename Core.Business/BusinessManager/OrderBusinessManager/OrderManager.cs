@@ -5,17 +5,20 @@ using Core.Application.Repositories.OrderRepositories;
 using Core.Business.BusinessRules;
 using Core.Business.Dtos.OrderDtos;
 using Core.Business.Dtos.ProductDtos;
+using Core.Business.Results;
 using Core.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Business.BusinessManager.OrderBusinessManager
 {
     public class OrderManager(IOrderDetailsRepository orderDetailsRepository,
                               IOrderRepository orderRepository,
                               OrderBusinessRules orderBusinessRules,
+                              IManager manager,,
                               IMapper mapper) : IOrderManager
     {
 
-        public async Task<OrderListDto> CreateOrder(OrderCreateDto orderCreateDto)
+        public async Task<IActionResult> CreateOrder(OrderCreateDto orderCreateDto)
         {
             await orderBusinessRules.OrderDetailsMembersCanNotBeNullOrEmpty(orderCreateDto.ShippingAddress,
                                                                       orderCreateDto.PostalCode,
@@ -29,16 +32,18 @@ namespace Core.Business.BusinessManager.OrderBusinessManager
             foreach (var product in orderCreateDto.Products)
                 await orderRepository.AddAsync(new Order(createdOrderDetail.Id, product.Id));
 
-            return await GetOrder(createdOrderDetail, orderCreateDto.Products);
-
+            var result= await GetOrder(createdOrderDetail, orderCreateDto.Products);
+            return manager.Result(result);
         }
 
-        public async Task<IEnumerable<OrderListDto>> GetAllOrders()
+        public async Task<IActionResult>GetAllOrders()
         {
-            return QueryForAllOrders();
+            return manager.Result(QueryForAllOrders());
         }
         private IEnumerable<OrderListDto> QueryForAllOrders()
         {
+            //           - - High Resource - -
+
             var context = orderRepository.Context;
             var orderListDtos = new List<OrderListDto>();
 

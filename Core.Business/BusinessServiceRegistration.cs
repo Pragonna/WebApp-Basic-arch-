@@ -3,6 +3,7 @@ using Core.Business.BusinessManager.OrderBusinessManager;
 using Core.Business.BusinessManager.ProductBusinessManager;
 using Core.Business.BusinessManager.UserBusinessManager;
 using Core.Business.BusinessRules;
+using Core.Business.Results;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -26,6 +27,7 @@ namespace Core.Business
             services.AddScoped<IProductManager, ProductManager>();
             services.AddScoped<ICategoryManager, CategoryManager>();
             services.AddScoped<IOrderManager, OrderManager>();
+            services.AddScoped<IManager, Manager>();
 
             return services;
         }
