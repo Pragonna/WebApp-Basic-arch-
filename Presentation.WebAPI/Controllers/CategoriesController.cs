@@ -12,15 +12,10 @@ namespace Presentation.WebAPI.Controllers
     {
         [HttpPost("post")]
         public async Task<IActionResult> Create([FromBody] CategoryAddOrUpdateDto categoryAddOrUpdateDto)
-        {
-            var result = await categoryManager.Add(categoryAddOrUpdateDto);
-            return Ok(result);
-        }
+            => await categoryManager.Add(categoryAddOrUpdateDto);
+
         [HttpGet("getall")]
-        public async Task<IActionResult> GetList()
-        {
-            var result = await categoryManager.GetAll();
-            return Ok(result);
-        }
+        public async Task<IActionResult> GetList() => await categoryManager.GetAll();
+
     }
 }

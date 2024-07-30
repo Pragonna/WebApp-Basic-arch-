@@ -14,33 +14,18 @@ namespace Presentation.WebAPI.Controllers
     {
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] ProductAddDto productAddDto)
-        {
-            ProductListDto result = await productManager.Add(productAddDto);
-            return Ok(result);
-        }
+            => await productManager.Add(productAddDto);
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
-        {
-            IEnumerable<ProductListDto> result = await productManager.GetAll();
-            return Ok(result);
-        }
+            => await productManager.GetAll();
         [HttpGet("getByCategoryId")]
         public async Task<IActionResult> GetByCategory([FromQuery] int categoryId)
-        {
-            IEnumerable<ProductListDto> result = await productManager.GetByCategoryId(categoryId);
-            return Ok(result);
-        }
+            => await productManager.GetByCategoryId(categoryId);
         [HttpPut("update")]
         public async Task<IActionResult> Modify([FromBody] ProductUpdateDto productUpdateDto)
-        {
-            ProductListDto result = await productManager.Modify(productUpdateDto);
-            return Ok(result);
-        }
+            => await productManager.Modify(productUpdateDto);
         [HttpDelete("delete")]
         public async Task<IActionResult> Remove([FromQuery] string name)
-        {
-            ProductListDto result = await productManager.Remove(name);
-            return Ok(result);
-        }
+            => await productManager.Remove(name);
     }
 }

@@ -11,41 +11,30 @@ namespace Presentation.WebAPI.Controllers
                                         ILogger<UserAuthSignController> logger) : ControllerBase
     {
         [HttpPost("signup")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterOrListDto userRegisterDto)
-        {
-            UserRegisterOrListDto registerDto = await userManager.Registration(userRegisterDto);
-            return Ok(registerDto);
-        }
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
+            => await userManager.Registration(userRegisterDto);
         [HttpPost("signin")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
-        {
-            var token = await userManager.Login(userLoginDto);
-            return Ok(token);
-        }
-        [HttpPut("update-role")]
+        => await userManager.Login(userLoginDto);
+
         [Authorize(policy: "OnlyAdmin")]
+        [HttpPut("update-role")]
         public async Task<IActionResult> UpdateUser([FromBody] UserModifyDto userModifyDto)
-        {
-            await userManager.ModifyUser(userModifyDto);
-            return Ok("User roles modified is successfully");
-        }
+            => await userManager.ModifyUser(userModifyDto);
+
+        [Authorize(policy: "OnlyAdmin")]
         [HttpGet("getAllUser")]
         public async Task<IActionResult> GetAllUser()
-        {
-            var result = await userManager.GetAllUser();
-            return Ok(result);
-        }
+            => await userManager.GetAllUser();
+
+        [Authorize(policy: "OnlyAdmin")]
         [HttpDelete("delete-user")]
         public async Task<IActionResult> DeleteUser([FromQuery] string email)
-        {
-            var result = await userManager.DeleteUser(email);
-            return Ok(result);
-        }
+            => await userManager.DeleteUser(email);
+
+        [Authorize(policy: "OnlyAdmin")]
         [HttpGet("getByEmail")]
         public async Task<IActionResult> FindByEmail([FromQuery] string email)
-        {
-            var result = await userManager.FindUserByEmail(email);
-            return Ok(result);
-        }
+            => await userManager.FindUserByEmail(email);
     }
 }
