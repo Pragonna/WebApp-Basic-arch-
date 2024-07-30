@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
 using System.Net;
 
 namespace Core.Application.CrossCuttingConcerns.Exceptions.Middleware
