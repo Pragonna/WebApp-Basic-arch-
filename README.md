@@ -64,7 +64,7 @@
 ## Getting Started
 
 ### Prerequisites
-- [.NET Core 6.0 SDK](https://dotnet.microsoft.com/download)
+- [.NET Core 8.0 SDK](https://dotnet.microsoft.com/download)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 
 ### Installation
